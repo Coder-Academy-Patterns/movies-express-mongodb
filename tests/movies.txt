@@ -2,6 +2,14 @@ GET http://localhost:7000/movies
 
 ###
 
+GET http://localhost:7000/movies/notFound
+
+###
+
+GET http://localhost:7000/movies/5946666eb53f55bd1cf5fc02
+
+###
+
 POST http://localhost:7000/movies
 content-type: application/json
 

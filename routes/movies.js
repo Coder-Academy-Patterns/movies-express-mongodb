@@ -25,4 +25,21 @@ router
         })
 })
 
+router
+.param('id', (req, res, next, id) => {
+    req.itemQuery = Movie.findById(id)
+    next()
+})
+
+router.route('/movies/:id')
+.get((req, res) => {
+    req.itemQuery
+        .then(movie => {
+            res.json(movie)
+        })
+        .catch(error => {
+            res.status(404).json({ error })
+        })
+})
+
 module.exports = router
