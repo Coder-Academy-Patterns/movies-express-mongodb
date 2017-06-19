@@ -10,11 +10,12 @@ Example of Express and MongoDB to make a simple API
 ### Add CRUD APIs to movies
 
 - Refactor to place all movie routes into `routes/movies.js` using `express.Router()`
-- You can create using `new Movie(doc).save()`
-- You can update using `Movie.findByIdAndUpdate(id, newDoc)`
+- You can create using [`new Movie(doc).save()` or `Movie.create(doc)`](http://mongoosejs.com/docs/api.html#model_Model.create)
+- You can update using [`Movie.findByIdAndUpdate(id, newDoc)`](http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate)
 - Create movie: `POST /movies`
 - Update movie: `PUT /movies/:id`
 - Delete movie: `DELETE /movies/:id`
+- Make sure you use the correct status code (e.g. `201` for create)
 
 ### *Advanced*: Add relations to movie
 - Create another schema + model called `Person`
