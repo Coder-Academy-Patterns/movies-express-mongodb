@@ -1,7 +1,11 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const moviesRouter = require('./routes/movies')
 
 const server = express()
+
+server.use(bodyParser.json())
+
 server.use(moviesRouter)
 
 server.get('/setup', (req, res) => {

@@ -14,5 +14,15 @@ router
             res.json({ error })
         })
 })
+.post((req, res) => {
+    const newMovie = req.body
+    Movie.create(newMovie)
+        .then(movie => {
+            res.json(movie)
+        })
+        .then(error => {
+            res.json({ error })
+        })
+})
 
 module.exports = router

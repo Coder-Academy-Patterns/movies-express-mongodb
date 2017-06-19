@@ -1,1 +1,11 @@
 GET http://localhost:7000/movies
+
+###
+
+POST http://localhost:7000/movies
+content-type: application/json
+
+{
+    "title": "Wonder Woman",
+    "yearReleased": 2017
+}
