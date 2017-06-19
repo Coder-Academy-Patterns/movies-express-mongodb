@@ -1,18 +1,8 @@
 const express = require('express')
+const moviesRouter = require('./routes/movies')
 
 const server = express()
-
-const Movie = require('./models/movie')
-
-server.get('/movies', (req, res) => {
-    Movie.find()
-        .then(movies => {
-            res.json(movies)
-        })
-        .then(error => {
-            res.json({ error })
-        })
-})
+server.use(moviesRouter)
 
 server.get('/setup', (req, res) => {
     const forestGump = new Movie({ title: 'Forest Gump' })
