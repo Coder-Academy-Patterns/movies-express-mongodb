@@ -1,7 +1,18 @@
 # movies-express-mongodb
 Example of Express and MongoDB to make a simple API
 
+## Running
+
+`yarn dev` => `localhost:7000`
+
+## Currently implemented:
+
+- List movies: `GET /movies`
+- Create sample movies: `GET /setup`
+
 ## Challenges
+
+### Add some more sample movies
 
 ### Add extra fields to movie model
 
