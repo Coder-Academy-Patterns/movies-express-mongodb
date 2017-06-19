@@ -27,3 +27,4 @@ Example of Express and MongoDB to make a simple API
 - Create a movie using a form
 - Update a movie
 - Delete a movie
+- Filter movies by year
