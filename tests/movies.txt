@@ -17,3 +17,17 @@ content-type: application/json
     "title": "Wonder Woman",
     "yearReleased": 2017
 }
+
+###
+
+PUT http://localhost:7000/movies/59479af6b90b8d363aea5813
+content-type: application/json
+
+{
+    "title": "Back to the Future",
+    "yearReleased": 1985
+}
+
+###
+
+DELETE http://localhost:7000/movies/5947c7d64da11b4e43bf3474

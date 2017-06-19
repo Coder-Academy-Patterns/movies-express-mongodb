@@ -41,5 +41,24 @@ router.route('/movies/:id')
             res.status(404).json({ error })
         })
 })
+.put((req, res) => {
+    const newMovie = req.body
+    req.itemQuery.update(newMovie)
+        .then(() => {
+            res.json(newMovie)
+        })
+        .catch(error => {
+            res.status(404).json({ error })
+        })
+})
+.delete((req, res) => {
+    req.itemQuery.remove()
+        .then(() => {
+            res.status(204).json({})
+        })
+        .catch(error => {
+            res.status(404).json({ error })
+        })
+})
 
 module.exports = router
