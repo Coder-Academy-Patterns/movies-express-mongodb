@@ -8,7 +8,17 @@ const jwtAlgorithm = 'HS256'
 
 function signTokenHandler(req, res) {
   const user = req.user
-  const token = jwt.sign({ email: user.email }, jwtSecret, { algorithm: jwtAlgorithm, subject: user._id.toString() })
+  const token = jwt.sign(
+    { // The payload: any additional information we want signed
+      email: user.email
+    },
+    jwtSecret, // The secret used to sign with
+    {
+      algorithm: jwtAlgorithm,
+      subject: user._id.toString(), // The ID of our user
+      expiresIn: '10h' // Expires in 10 hours
+    }
+  )
   res.json({ token })
 }
 
