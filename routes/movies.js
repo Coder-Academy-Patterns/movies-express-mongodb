@@ -7,6 +7,8 @@ router
 .route('/movies')
 .get((req, res) => {
     Movie.find()
+        .populate('cast.person')
+        .populate('directors.person')
         .populate('writers.person')
         .then(movies => {
             res.json(movies)
@@ -35,6 +37,8 @@ router
 router.route('/movies/:id')
 .get((req, res) => {
     req.itemQuery
+        .populate('cast.person')
+        .populate('directors.person')
         .populate('writers.person')
         .then(movie => {
             res.json(movie)
