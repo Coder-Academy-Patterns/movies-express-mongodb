@@ -1,25 +1,24 @@
 const express = require('express')
-const Movie = require('../models/movie')
+const Person = require('../models/person')
 
 const router = express.Router()
 
 router
-.route('/movies')
+.route('/people')
 .get((req, res) => {
-    Movie.find()
-        .populate('writers.person')
-        .then(movies => {
-            res.json(movies)
+    Person.find()
+        .then(people => {
+            res.json(people)
         })
         .then(error => {
             res.json({ error })
         })
 })
 .post((req, res) => {
-    const newMovie = req.body
-    Movie.create(newMovie)
-        .then(movie => {
-            res.json(movie)
+    const newPerson = req.body
+    Person.create(newPerson)
+        .then(person => {
+            res.json(person)
         })
         .then(error => {
             res.json({ error })
@@ -28,26 +27,25 @@ router
 
 router
 .param('id', (req, res, next, id) => {
-    req.itemQuery = Movie.findById(id)
+    req.itemQuery = Person.findById(id)
     next()
 })
 
-router.route('/movies/:id')
+router.route('/people/:id')
 .get((req, res) => {
     req.itemQuery
-        .populate('writers.person')
-        .then(movie => {
-            res.json(movie)
+        .then(person => {
+            res.json(person)
         })
         .catch(error => {
             res.status(404).json({ error })
         })
 })
 .put((req, res) => {
-    const newMovie = req.body
-    req.itemQuery.update(newMovie)
+    const newPerson = req.body
+    req.itemQuery.update(newPerson)
         .then(() => {
-            res.json(newMovie)
+            res.json(newPerson)
         })
         .catch(error => {
             res.status(404).json({ error })
