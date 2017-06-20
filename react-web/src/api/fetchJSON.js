@@ -1,0 +1,1 @@
+export default (path, options) => fetch(path, options).then(res => res.json())

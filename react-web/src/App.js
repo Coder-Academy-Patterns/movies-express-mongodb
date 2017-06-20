@@ -1,20 +1,37 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import * as moviesAPI from './api/movies'
+import MovieList from './components/MovieList'
 
 class App extends Component {
+  state = {
+    movies: null
+  }
+
   render() {
+    const { movies } = this.state
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+      <main>
+        <div>
+        {
+          !!movies ? (
+            <MovieList items={ movies } />
+          ) : (
+            'Loading movies…'
+          )
+        }
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
+      </main>
+    )
+  }
+
+  componentDidMount() {
+    moviesAPI.collection()
+      .then(movies => {
+        this.setState({ movies })
+      })
+      .catch(error => {
+        this.setState({ error })
+      })
   }
 }
 
