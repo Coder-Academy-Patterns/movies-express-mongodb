@@ -1,0 +1,31 @@
+### Unauthorized
+
+GET http://localhost:7000/auth
+
+
+### Register
+
+POST http://localhost:7000/auth/register
+Content-Type: application/json
+
+{
+  "email": "patrick.smith@coderacademy.edu.au",
+  "password": "test123"
+}
+
+
+### Sign in
+
+POST http://localhost:7000/auth
+Content-Type: application/json
+
+{
+  "email": "patrick.smith@coderacademy.edu.au",
+  "password": "test123"
+}
+
+
+### Get current user information
+
+GET http://localhost:7000/auth
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhdHJpY2suc21pdGhAY29kZXJhY2FkZW15LmVkdS5hdSIsImlhdCI6MTQ5Nzk2NzM5NSwic3ViIjoiNTk0OTI5Y2MwODRiZTUyNDI3NGUwOGExIn0.hWQd-_EKS4JFe6bKZbpIdcHgkrQ6OWVAb08evgI4jto
