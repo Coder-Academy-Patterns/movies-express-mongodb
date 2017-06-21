@@ -7,11 +7,15 @@ export default function MovieList({
     return (
         <div>
         {
-            items.map(item => (
-                <Movie key={ item._id }
-                    { ...item }
-                />
-            ))
+            (items.length === 0) ? (
+                <p>No movies yet!</p>
+            ) : (
+                items.map(item => (
+                    <Movie key={ item._id }
+                        { ...item }
+                    />
+                ))
+            )
         }
         </div>
     )
