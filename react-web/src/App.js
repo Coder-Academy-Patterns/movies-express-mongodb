@@ -3,19 +3,40 @@ import './App.css'
 import MoviesList from './components/MoviesList'
 
 class App extends Component {
-  
+  // Initial state
+  state = {
+    error: null,
+    movies: null // Null means not loaded yet
+  }
 
   render() {
+    const { error, movies } = this.state
     return (
       <main>
-        <MoviesList items={
-          [
-            { _id: 'abc', title: 'Title and the Furious 2', yearReleased: 2007 },
-            { _id: 'def', title: 'Example', yearReleased: 2009 }
-          ]
-        } />
+        { !!error && <p>{ error.message }</p> }
+        {
+          !!movies ? (
+            <MoviesList items={ movies } />
+          ) : (
+            'Loading movies…'
+          )
+        }
       </main>
     )
+  }
+
+  componentDidMount() {
+    // Asychronous
+    fetch('/movies')
+      // Parse JSON response
+      .then(res => res.json())
+      .then(movies => {
+        // Happens some time in the future
+        this.setState({ movies })
+      })
+      .catch(error => {
+        this.setState({ error })
+      })
   }
 }
 
