@@ -1,38 +1,22 @@
 import React, { Component } from 'react'
-import * as moviesAPI from './api/movies'
-import MovieList from './components/MovieList'
+import './App.css'
+import MoviesList from './components/MoviesList'
 
 class App extends Component {
-  state = {
-    movies: null
-  }
+  
 
   render() {
-    const { movies } = this.state
     return (
       <main>
-        <div>
-        {
-          !!movies ? (
-            <MovieList items={ movies } />
-          ) : (
-            'Loading movies…'
-          )
-        }
-        </div>
+        <MoviesList items={
+          [
+            { _id: 'abc', title: 'Title and the Furious 2', yearReleased: 2007 },
+            { _id: 'def', title: 'Example', yearReleased: 2009 }
+          ]
+        } />
       </main>
     )
   }
-
-  componentDidMount() {
-    moviesAPI.collection()
-      .then(movies => {
-        this.setState({ movies })
-      })
-      .catch(error => {
-        this.setState({ error })
-      })
-  }
 }
 
-export default App;
+export default App
