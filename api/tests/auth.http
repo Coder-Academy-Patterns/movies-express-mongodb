@@ -1,0 +1,17 @@
+POST http://localhost:7000/auth
+Content-Type: application/json
+
+{
+  "email": "patrick.smith@coderacademy.edu.au",
+  "password": "password123"
+}
+
+###
+
+POST http://localhost:7000/auth/register
+Content-Type: application/json
+
+{
+  "email": "patrick.smith@coderacademy.edu.au",
+  "password": "test123"
+}
