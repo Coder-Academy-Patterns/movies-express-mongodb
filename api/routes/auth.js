@@ -5,7 +5,7 @@ const router = express.Router()
 
 // Sign in: POST /auth
 router.post('/auth', authMiddleware.authenticateSignIn, (req, res) => {
-  res.json({ success: true })
+  res.json({ user: req.user })
 })
 
 // Registration: POST /auth/register

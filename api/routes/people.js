@@ -1,11 +1,13 @@
 const express = require('express')
 const Person = require('../models/person')
+const authMiddleware = require('../middleware/auth')
 
 const router = express.Router()
 
 router
 .route('/people')
-.get((req, res) => {
+// User must be signed in to list people
+.get(authMiddleware.authenticateJWT, (req, res) => {
     Person.find()
         .then(people => {
             res.json(people)
