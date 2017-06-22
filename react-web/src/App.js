@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
 import MoviesList from './components/MoviesList'
+import SignInForm from './components/SignInForm'
 
 class App extends Component {
   // Initial state
@@ -13,6 +14,7 @@ class App extends Component {
     const { error, movies } = this.state
     return (
       <main>
+        <SignInForm />
         { !!error && <p>{ error.message }</p> }
         {
           !!movies ? (
