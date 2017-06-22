@@ -1,9 +1,28 @@
 const passport = require('passport')
 const passportJWT = require('passport-jwt')
+const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 
+// Config
 const jwtSecret = 'SECRET!' // FIXME: use environment variable
 const jwtAlgorithm = 'HS256'
+
+// Create a valid JWT
+function signTokenHandler(req, res) {
+  const user = req.user
+  const token = jwt.sign(
+    { // Payload
+      email: user.email
+    },
+    jwtSecret,
+    { // Options
+      subject: user._id.toString(),
+      algorithm: jwtAlgorithm,
+      expiresIn: '6h'
+    }
+  )
+  res.json({ token })
+}
 
 // Add local strategy (email & password)
 passport.use(
@@ -67,5 +86,6 @@ module.exports = {
   initialize: passport.initialize(),
   authenticateSignIn: passport.authenticate('local', { session: false }),
   authenticateJWT: passport.authenticate('jwt', { session: false }),
-  register: registerMiddleware
+  register: registerMiddleware,
+  signTokenHandler
 }
