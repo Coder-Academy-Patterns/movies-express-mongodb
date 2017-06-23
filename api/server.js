@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const authMiddleware = require('./middleware/auth')
 const moviesRouter = require('./routes/movies')
 const peopleRouter = require('./routes/people')
@@ -10,6 +11,9 @@ const server = express()
 
 // Middleware
 server.use(bodyParser.json())
+server.use(cors({
+    origin: 'http://localhost:3000'
+}))
 // Connect Passport to Express
 server.use(authMiddleware.initialize)
 
