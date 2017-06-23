@@ -1,0 +1,16 @@
+{
+  "name": "movies-express-mongodb-next",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "next": "beta",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build"
+  }
+}
