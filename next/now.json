@@ -1,0 +1,5 @@
+{
+    "name": "movies-next",
+    "alias": "movies-next",
+    "dotenv": ".env.production"
+}

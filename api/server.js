@@ -12,7 +12,7 @@ const server = express()
 // Middleware
 server.use(bodyParser.json())
 server.use(cors({
-    origin: 'http://localhost:3000'
+    origin: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : 'http://localhost:3000'
 }))
 // Connect Passport to Express
 server.use(authMiddleware.initialize)

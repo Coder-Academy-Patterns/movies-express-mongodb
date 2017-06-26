@@ -1,0 +1,8 @@
+{
+    "name": "movies-api",
+    "alias": "movies-api",
+    "dotenv": ".env.production",
+    "env": {
+        "NODE_ENV": "production"
+    }
+}

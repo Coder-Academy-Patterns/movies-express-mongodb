@@ -1,0 +1,5 @@
+{
+    "name": "movies-react",
+    "alias": "movies-react",
+    "dotenv": ".env.production"
+}

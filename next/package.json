@@ -12,7 +12,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "build-static": "next build && next export",
-    "deploy:staging": "yarn run build-static && cd out && now --public"
+    "start": "next start",
+    "deploy:staging": "now --public --dotenv .env.production",
+    "build-static": "next build && next export"
   }
 }
