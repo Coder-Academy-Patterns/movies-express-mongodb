@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import './App.css'
 import MoviesList from './components/MoviesList'
 import SignInForm from './components/SignInForm'
+import CreateMovieForm from './components/CreateMovieForm'
 import * as authAPI from './api/auth'
+import * as moviesAPI from './api/movies'
 
 class App extends Component {
   // Initial state
@@ -22,6 +24,14 @@ class App extends Component {
       })
   }
 
+  handleCreateMovie = (movie) => {
+    this.setState(({ movies }) => ({
+      movies: [ movie ].concat(movies)
+    }))
+
+    moviesAPI.create(movie)
+  }
+
   render() {
     const { error, token, movies } = this.state
     return (
@@ -34,6 +44,7 @@ class App extends Component {
           )
         }
         { !!error && <p>{ error.message }</p> }
+        <CreateMovieForm onCreate={ this.handleCreateMovie } />
         {
           !!movies ? (
             <MoviesList items={ movies } />
@@ -47,9 +58,7 @@ class App extends Component {
 
   componentDidMount() {
     // Asychronous
-    fetch('/movies')
-      // Parse JSON response
-      .then(res => res.json())
+    moviesAPI.list()
       .then(movies => {
         // Happens some time in the future
         this.setState({ movies })
