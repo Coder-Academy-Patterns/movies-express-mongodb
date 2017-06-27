@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 mongoose.Promise = Promise
-mongoose.connect('mongodb://localhost/movies')
+mongoose.connect(process.env.MONGODB_URL)
 
 const db = mongoose.connection
 
