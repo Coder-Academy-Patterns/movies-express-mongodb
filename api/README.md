@@ -3,7 +3,17 @@ Example of Express and MongoDB to make a simple API
 
 ## Running
 
-`yarn dev` => `localhost:7000`
+`yarn dev` — Open `localhost:7000`
+
+## Deployment
+
+### Create a .env.production file
+```
+MONGODB_URL =
+CORS_ORIGINS = 
+```
+
+To deploy to Now, run `yarn run deploy`
 
 ## Currently implemented:
 
