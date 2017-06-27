@@ -3,6 +3,7 @@ import './App.css'
 import MoviesList from './components/MoviesList'
 import SignInForm from './components/SignInForm'
 import * as authAPI from './api/auth'
+import * as moviesAPI from './api/movies'
 
 class App extends Component {
   // Initial state
@@ -47,9 +48,7 @@ class App extends Component {
 
   componentDidMount() {
     // Asychronous
-    fetch('/movies')
-      // Parse JSON response
-      .then(res => res.json())
+    moviesAPI.list()
       .then(movies => {
         // Happens some time in the future
         this.setState({ movies })
