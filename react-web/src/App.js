@@ -49,33 +49,18 @@ class App extends Component {
         <main>
           <PrimaryNav />
           { !!error && <p>{ error.message }</p> }
-          <Route exact path='/' render={ () => (
-            <div>
-              <p>Welcome!</p>
-            </div>
-          ) } />
+          <Route exact path='/' component={ HomePage } />
           <Route path='/movies' render={ () => (
-            <div>
-              <CreateMovieForm onCreate={ this.handleCreateMovie } />
-              {
-                !!movies ? (
-                  <MoviesList items={ movies } />
-                ) : (
-                  'Loading movies…'
-                )
-              }
-            </div>
+            <MoviesPage
+              movies={ movies }
+              onCreateMovie={ this.handleCreateMovie }
+            />
           ) } />
           <Route path='/signin' render={ () => (
-            <div>
-              {
-                !!token ? (
-                  <Redirect to='/' />
-                ) : (
-                  <SignInForm onSignIn={ this.handleSignIn } />
-                )
-              }
-            </div>
+            <SignInPage
+              token={ token }
+              onSignIn={ this.handleSignIn }
+            />
           ) } />
         </main>
       </Router>
