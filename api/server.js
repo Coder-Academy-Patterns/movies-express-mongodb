@@ -19,10 +19,12 @@ server.use(cors({
     origin: process.env.CORS_ORIGINS.split(',')
 }))
 
-// Routes
-server.use(moviesRouter)
-server.use(peopleRouter)
-server.use(authRouter)
+// API Routes
+server.use([
+    moviesRouter,
+    peopleRouter,
+    authRouter
+])
 
 // Route to quickly set database up
 server.get('/setup', (req, res) => {
