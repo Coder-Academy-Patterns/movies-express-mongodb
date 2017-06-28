@@ -9,6 +9,11 @@ main {
   margin: auto;
 }
 
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
 nav a {
   display: inline-block;
   padding: 1rem 0.5rem;
