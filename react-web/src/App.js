@@ -2,16 +2,13 @@ import React, { Component } from 'react'
 import {
   BrowserRouter as Router,
   Route,
-  Link,
-  Redirect
+  Switch
 } from 'react-router-dom'
 import './App.css'
 import PrimaryNav from './components/PrimaryNav'
-import MoviesList from './components/MoviesList'
-import SignInForm from './components/SignInForm'
-import CreateMovieForm from './components/CreateMovieForm'
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
+import MoviePage from './pages/MoviePage'
 import SignInPage from './pages/SignInPage'
 import * as authAPI from './api/auth'
 import * as moviesAPI from './api/movies'
@@ -50,12 +47,19 @@ class App extends Component {
           <PrimaryNav />
           { !!error && <p>{ error.message }</p> }
           <Route exact path='/' component={ HomePage } />
-          <Route path='/movies' render={ () => (
-            <MoviesPage
-              movies={ movies }
-              onCreateMovie={ this.handleCreateMovie }
-            />
-          ) } />
+          <Switch path='/movies'>
+            <Route exact path='/movies' render={ () => (
+              <MoviesPage
+                movies={ movies }
+                onCreateMovie={ this.handleCreateMovie }
+              />
+            ) } />
+            <Route path='/movies/:id' render={ ({ match }) => (
+              <MoviePage
+                movie={ !!movies ? movies.find(movie => movie._id === match.params.id) : null }
+              />
+            ) } />
+          </Switch>
           <Route path='/signin' render={ () => (
             <SignInPage
               token={ token }
