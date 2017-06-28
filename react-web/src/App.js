@@ -1,8 +1,18 @@
 import React, { Component } from 'react'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect
+} from 'react-router-dom'
 import './App.css'
+import PrimaryNav from './components/PrimaryNav'
 import MoviesList from './components/MoviesList'
 import SignInForm from './components/SignInForm'
 import CreateMovieForm from './components/CreateMovieForm'
+import HomePage from './pages/HomePage'
+import MoviesPage from './pages/MoviesPage'
+import SignInPage from './pages/SignInPage'
 import * as authAPI from './api/auth'
 import * as moviesAPI from './api/movies'
 
@@ -35,24 +45,40 @@ class App extends Component {
   render() {
     const { error, token, movies } = this.state
     return (
-      <main>
-        {
-          !!token ? (
-            <p>Welcome!</p>
-          ) : (
-            <SignInForm onSignIn={ this.handleSignIn } />
-          )
-        }
-        { !!error && <p>{ error.message }</p> }
-        <CreateMovieForm onCreate={ this.handleCreateMovie } />
-        {
-          !!movies ? (
-            <MoviesList items={ movies } />
-          ) : (
-            'Loading movies…'
-          )
-        }
-      </main>
+      <Router>
+        <main>
+          <PrimaryNav />
+          { !!error && <p>{ error.message }</p> }
+          <Route exact path='/' render={ () => (
+            <div>
+              <p>Welcome!</p>
+            </div>
+          ) } />
+          <Route path='/movies' render={ () => (
+            <div>
+              <CreateMovieForm onCreate={ this.handleCreateMovie } />
+              {
+                !!movies ? (
+                  <MoviesList items={ movies } />
+                ) : (
+                  'Loading movies…'
+                )
+              }
+            </div>
+          ) } />
+          <Route path='/signin' render={ () => (
+            <div>
+              {
+                !!token ? (
+                  <Redirect to='/' />
+                ) : (
+                  <SignInForm onSignIn={ this.handleSignIn } />
+                )
+              }
+            </div>
+          ) } />
+        </main>
+      </Router>
     )
   }
 
