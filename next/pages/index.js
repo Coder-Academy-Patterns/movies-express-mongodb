@@ -1,38 +1,12 @@
-import MoviesList from '../components/MoviesList'
-import CreateMovieForm from '../components/CreateMovieForm'
-import * as moviesAPI from '../api/movies'
+import PrimaryNav from '../components/PrimaryNav'
 
-class Landing extends React.Component {
-  state = {
-    movies: this.props.initialMovies
-  }
+export default function Landing({
 
-  handleCreateMovie = (movie) => {
-    this.setState(({ movies }) => ({
-      movies: [ movie ].concat(movies)
-    }))
-
-    moviesAPI.create(movie)
-  }
-
-  render() {
-    const {
-      movies
-    } = this.state
-
-    return (
-      <main>
-        <CreateMovieForm onCreate={ this.handleCreateMovie } />
-        <MoviesList items={ movies } />
-      </main>
-    )
-  }
+}) {
+  return (
+    <main>
+      <PrimaryNav />
+      <h1>Home</h1>
+    </main>
+  )
 }
-
-Landing.getInitialProps = async () => {
-  return {
-    initialMovies: await moviesAPI.list()
-  }
-}
-
-export default Landing
