@@ -9,8 +9,7 @@ export default function Movie({
   writers,
   directors,
   cast,
-  crew,
-  showLink = false
+  crew
 }) {
   return (
     <article>

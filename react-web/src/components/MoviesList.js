@@ -11,7 +11,6 @@ export default function MoviesList({
         <Movie
           key={ item._id }
           { ...item }
-          showLink
         />
       ))
     }
