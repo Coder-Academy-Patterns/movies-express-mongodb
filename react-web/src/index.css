@@ -16,5 +16,9 @@ label {
 
 nav a {
   display: inline-block;
-  padding: 1rem 0.5rem;
+  padding: 0.5rem 0.25rem;
+  color: black;
+}
+nav a.active {
+  color: #dd7711;
 }

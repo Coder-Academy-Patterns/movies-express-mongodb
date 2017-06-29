@@ -1,12 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
-export default function PrimaryNav() {
-    return (
-        <nav>
-            <Link to='/'>Home</Link>
-            <Link to='/movies'>Movies</Link>
-            <Link to='/signin'>Sign in</Link>
-        </nav>
-    )
-}
+export default () => (
+    <nav>
+        <NavLink exact to='/' activeClassName='active'>Home</NavLink>
+        <NavLink to='/signin'  activeClassName='active'>Sign In</NavLink>
+        <NavLink to='/movies'  activeClassName='active'>Movies</NavLink>
+    </nav>
+)

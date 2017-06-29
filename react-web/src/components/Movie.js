@@ -15,14 +15,9 @@ export default function Movie({
   return (
     <article>
       <h2>
-        { showLink ? (
-            <Link to={ `/movies/${_id}` }>
-              { title }
-            </Link>
-          ) : (
-            title
-          )
-        }
+        <Link to={ `/movies/${_id}` }>
+          { title }
+        </Link>
         {' '}
         <small>({ yearReleased })</small>
       </h2>

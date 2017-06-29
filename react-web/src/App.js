@@ -8,7 +8,6 @@ import './App.css'
 import PrimaryNav from './components/PrimaryNav'
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
-import MoviePage from './pages/MoviePage'
 import SignInPage from './pages/SignInPage'
 import * as authAPI from './api/auth'
 import * as moviesAPI from './api/movies'
@@ -46,26 +45,23 @@ class App extends Component {
         <main>
           <PrimaryNav />
           { !!error && <p>{ error.message }</p> }
-          <Route exact path='/' component={ HomePage } />
-          <Switch path='/movies'>
-            <Route exact path='/movies' render={ () => (
-              <MoviesPage
-                movies={ movies }
-                onCreateMovie={ this.handleCreateMovie }
-              />
-            ) } />
-            <Route path='/movies/:id' render={ ({ match }) => (
-              <MoviePage
-                movie={ !!movies ? movies.find(movie => movie._id === match.params.id) : null }
-              />
-            ) } />
+
+          <Switch>
+            <Route exact path='/' component={ HomePage } />
+            <Route path='/signin' render={
+              () => (
+                <SignInPage token={ token } onSignIn={ this.handleSignIn } />
+              )
+            } />
+            <Route path='/movies' render={
+              () => (
+                <MoviesPage movies={ movies } />
+              )
+            } />
+            <Route render={
+              ({ location }) => <p>{ location.pathname } not found</p>
+            } />
           </Switch>
-          <Route path='/signin' render={ () => (
-            <SignInPage
-              token={ token }
-              onSignIn={ this.handleSignIn }
-            />
-          ) } />
         </main>
       </Router>
     )
