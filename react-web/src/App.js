@@ -1,4 +1,9 @@
 import React, { Component } from 'react'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 import './App.css'
 import MoviesList from './components/MoviesList'
 import SignInForm from './components/SignInForm'
@@ -25,23 +30,48 @@ class App extends Component {
   render() {
     const { error, token, movies } = this.state
     return (
-      <main>
-        {
-          !!token ? (
-            <p>Welcome!</p>
-          ) : (
-            <SignInForm onSignIn={ this.handleSignIn } />
-          )
-        }
-        { !!error && <p>{ error.message }</p> }
-        {
-          !!movies ? (
-            <MoviesList items={ movies } />
-          ) : (
-            'Loading movies…'
-          )
-        }
-      </main>
+      <Router>
+        <main>
+          <nav>
+            <Link to='/'>Home</Link>
+            <Link to='/signin'>Sign In</Link>
+            <Link to='/movies'>Movies</Link>
+          </nav>
+          { !!error && <p>{ error.message }</p> }
+
+          <Route exact path='/' render={
+            () => (
+              <h1>Home</h1>
+            )
+          } />
+          <Route path='/signin' render={
+            () => (
+              <div>
+              {
+                !!token ? (
+                  <p>Welcome!</p>
+                ) : (
+                  <SignInForm onSignIn={ this.handleSignIn } />
+                )
+              }
+              </div>
+            )
+          } />
+          <Route path='/movies' render={
+            () => (
+              <div>
+              {
+                !!movies ? (
+                  <MoviesList items={ movies } />
+                ) : (
+                  'Loading movies…'
+                )
+              }
+              </div>
+            )
+          } />
+        </main>
+      </Router>
     )
   }
 
