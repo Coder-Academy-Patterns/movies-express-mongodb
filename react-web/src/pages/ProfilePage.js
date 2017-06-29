@@ -8,19 +8,25 @@ function secondsUntilTime(expiry) {
 }
 
 const ProfilePage = ({
-    userInfo
+    userInfo,
+    onSignOut
 }) => (
     <div>
     {
         !userInfo ? (
             <Redirect to='/signin' />
         ) : (
-            <dl>
-                <dt>Email:</dt>
-                <dd>{ userInfo.email }</dd>
-                <dt>Will sign out in:</dt>
-                <dd>{ secondsUntilTime(userInfo.exp) } seconds</dd>
-            </dl>
+            <div>
+                <dl>
+                    <dt>Email:</dt>
+                    <dd>{ userInfo.email }</dd>
+                    <dt>Will sign out in:</dt>
+                    <dd>{ secondsUntilTime(userInfo.exp) } seconds</dd>
+                </dl>
+                <button onClick={ onSignOut }>
+                    Sign Out
+                </button>
+            </div>
         )
     }
     </div>

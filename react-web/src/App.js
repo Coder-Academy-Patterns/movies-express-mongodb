@@ -44,6 +44,10 @@ class App extends Component {
       })
   }
 
+  handleSignOut = () => {
+    this.setState({ token: null })
+  }
+
   handleCreateMovie = (movie) => {
     this.setState(({ movies }) => ({
       movies: [ movie ].concat(movies)
@@ -76,7 +80,7 @@ class App extends Component {
             } />
             <Route path='/profile' render={
               () => (
-                <ProfilePage userInfo={ userInfo } />
+                <ProfilePage userInfo={ userInfo } onSignOut={ this.handleSignOut } />
               )
             } />
             <Route path='/movies' render={

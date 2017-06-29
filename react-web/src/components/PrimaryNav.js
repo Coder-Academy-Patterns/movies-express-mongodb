@@ -8,7 +8,7 @@ export default ({
         <NavLink exact to='/' activeClassName='active'>Home</NavLink>
         {
             signedIn ? [
-                <NavLink to='/profile'  activeClassName='active'>Profile</NavLink>
+                <NavLink key='profile' to='/profile'  activeClassName='active'>Profile</NavLink>
             ] : [
                 <NavLink key='signin' to='/signin'  activeClassName='active'>Sign In</NavLink>,
                 <NavLink key='join' to='/join' activeClassName='active'>Sign Up</NavLink>
