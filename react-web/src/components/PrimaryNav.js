@@ -15,5 +15,6 @@ export default ({
             ]
         }
         <NavLink to='/movies'  activeClassName='active'>Movies</NavLink>
+        <NavLink to='/people'  activeClassName='active'>People</NavLink>
     </nav>
 )
