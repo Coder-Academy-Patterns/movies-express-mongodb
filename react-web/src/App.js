@@ -5,6 +5,9 @@ import {
   Link
 } from 'react-router-dom'
 import './App.css'
+import HomePage from './pages/HomePage'
+import MoviesPage from './pages/MoviesPage'
+import SignInPage from './pages/SignInPage'
 import MoviesList from './components/MoviesList'
 import SignInForm from './components/SignInForm'
 import * as authAPI from './api/auth'
@@ -39,35 +42,15 @@ class App extends Component {
           </nav>
           { !!error && <p>{ error.message }</p> }
 
-          <Route exact path='/' render={
-            () => (
-              <h1>Home</h1>
-            )
-          } />
+          <Route exact path='/' component={ HomePage } />
           <Route path='/signin' render={
             () => (
-              <div>
-              {
-                !!token ? (
-                  <p>Welcome!</p>
-                ) : (
-                  <SignInForm onSignIn={ this.handleSignIn } />
-                )
-              }
-              </div>
+              <SignInPage token={ token } onSignIn={ this.handleSignIn } />
             )
           } />
           <Route path='/movies' render={
             () => (
-              <div>
-              {
-                !!movies ? (
-                  <MoviesList items={ movies } />
-                ) : (
-                  'Loading movies…'
-                )
-              }
-              </div>
+              <MoviesPage movies={ movies } />
             )
           } />
         </main>
