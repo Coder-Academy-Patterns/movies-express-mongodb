@@ -4,10 +4,15 @@ const authMiddleware = require('../middleware/auth')
 
 const router = express.Router()
 
+router.use('/people', [
+    authMiddleware.authenticateJWT,
+    authMiddleware.requireRole('people:read')
+])
+
 router
 .route('/people')
 // User must be signed in to list people
-.get(authMiddleware.authenticateJWT, (req, res) => {
+.get((req, res) => {
     Person.find()
         .then(people => {
             res.json(people)
@@ -16,7 +21,8 @@ router
             res.json({ error })
         })
 })
-.post((req, res) => {
+.post(
+    authMiddleware.requireRole('people:write'), (req, res) => {
     const newPerson = req.body
     Person.create(newPerson)
         .then(person => {

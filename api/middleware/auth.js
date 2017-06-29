@@ -7,12 +7,25 @@ const User = require('../models/user')
 const jwtSecret = 'SECRET!' // FIXME: use environment variable
 const jwtAlgorithm = 'HS256'
 
+// Roles
+function getUserRoles(user) {
+  let roles = ['movies:read', 'movies:write']
+
+  const isCoderAcademy = /@coderacademy.edu.au$/.test(user.email)
+  if (isCoderAcademy) {
+    roles.push('people:read', 'people:write')
+  }
+
+  return roles
+}
+
 // Create a valid JWT
 function signTokenHandler(req, res) {
   const user = req.user
   const token = jwt.sign(
     { // Payload
-      email: user.email
+      email: user.email,
+      roles: getUserRoles(user)
     },
     jwtSecret,
     { // Options
@@ -42,12 +55,17 @@ passport.use(
     // It decode the token payload for us
     (jwtPayload, done) => {
       const userID = jwtPayload.sub // Used ID is the subject
+      const roles = jwtPayload.roles || [] 
       // Look up the user in our database
       User.findById(userID)
         .then(user => {
           // User was found
           if (user) {
-            done(null, user)
+            done(null, {
+              id: userID,
+              email: user.email,
+              roles
+            })
           }
           // No user was found
           else {
@@ -63,7 +81,6 @@ passport.use(
 
 // Register new user
 function registerMiddleware(req, res, next) {
-  console.log('registerMiddleware', req.body)
   const user = new User({
     email: req.body.email
   })
@@ -82,10 +99,22 @@ function registerMiddleware(req, res, next) {
   })
 }
 
+const requireRole = (role) => (req, res, next) => {
+  const user = req.user
+  if (user.roles.indexOf(role) === -1) {
+    const error = new Error(`Signed in user must have role ${role}`)
+    error.status = 401
+    next(error)
+  }
+
+  next()
+}
+
 module.exports = {
   initialize: passport.initialize(),
   authenticateSignIn: passport.authenticate('local', { session: false }),
   authenticateJWT: passport.authenticate('jwt', { session: false }),
   register: registerMiddleware,
+  requireRole,
   signTokenHandler
 }
