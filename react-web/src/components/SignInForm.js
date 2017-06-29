@@ -18,21 +18,16 @@ function submitSignIn(event, onSignIn) {
   onSignIn({ email, password })
 }
 
-export default function SignInForm({
-  onSignIn
-}) {
+export default function SignInForm({ onSignIn }) {
   return (
-    <form
-      onSubmit={ (event) => submitSignIn(event, onSignIn) }
-      style={ formStyle }
-    >
+    <form onSubmit={event => submitSignIn(event, onSignIn)} style={formStyle}>
       <label>
         <span>Email </span>
-        <input name='email' />
+        <input name="email" />
       </label>
       <label>
         <span>Password </span>
-        <input type='password' name='password' />
+        <input type="password" name="password" />
       </label>
       <button>Sign In</button>
     </form>

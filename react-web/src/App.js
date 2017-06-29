@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import './App.css'
 import PrimaryNav from './components/PrimaryNav'
 import HomePage from './pages/HomePage'
@@ -23,7 +18,8 @@ class App extends Component {
   }
 
   handleSignIn = ({ email, password }) => {
-    authAPI.signIn({ email, password })
+    authAPI
+      .signIn({ email, password })
       .then(json => {
         this.setState({ token: json.token })
       })
@@ -38,23 +34,28 @@ class App extends Component {
       <Router>
         <main>
           <PrimaryNav />
-          { !!error && <p>{ error.message }</p> }
+          {!!error &&
+            <p>
+              {error.message}
+            </p>}
 
           <Switch>
-            <Route exact path='/' component={ HomePage } />
-            <Route path='/signin' render={
-              () => (
-                <SignInPage token={ token } onSignIn={ this.handleSignIn } />
-              )
-            } />
-            <Route path='/movies' render={
-              () => (
-                <MoviesPage movies={ movies } />
-              )
-            } />
-            <Route render={
-              ({ location }) => <p>{ location.pathname } not found</p>
-            } />
+            <Route exact path="/" component={HomePage} />
+            <Route
+              path="/signin"
+              render={() =>
+                <SignInPage token={token} onSignIn={this.handleSignIn} />}
+            />
+            <Route
+              path="/movies"
+              render={() => <MoviesPage movies={movies} />}
+            />
+            <Route
+              render={({ location }) =>
+                <p>
+                  {location.pathname} not found
+                </p>}
+            />
           </Switch>
         </main>
       </Router>

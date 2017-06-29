@@ -1,11 +1,12 @@
 import React from 'react'
 
-const HomePage = ({
+const HomePage = (
+  {
     // props
-}) => (
-    <div>
-        <h1>Welcome!</h1>
-    </div>
-)
+  }
+) =>
+  <div>
+    <h1>Welcome!</h1>
+  </div>
 
 export default HomePage
