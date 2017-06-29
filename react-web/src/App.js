@@ -8,6 +8,7 @@ import {
 import decodeJWT from 'jwt-decode'
 import './App.css'
 import PrimaryNav from './components/PrimaryNav'
+import ErrorMessage from './components/ErrorMessage'
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
 import PeoplePage from './pages/PeoplePage'
@@ -37,6 +38,13 @@ class App extends Component {
     this.setState({ token })
   }
 
+  setError = (error) => {
+    if (error.response && error.response.data && error.response.data.error) {
+      error = error.response.data.error
+    }
+    this.setState({ error })
+  }
+
   loadPeople = () => {
     // Only load once
     if (this.loadPromises.listPeople) {
@@ -50,7 +58,7 @@ class App extends Component {
         this.setState({ people, error: null })
       })
       .catch(error => {
-        this.setState({ error })
+        this.setError(error)
       })
   }
 
@@ -60,7 +68,7 @@ class App extends Component {
         this.setToken(json.token)
       })
       .catch(error => {
-        this.setState({ error })
+        this.setError(error)
       })
   }
 
@@ -70,7 +78,7 @@ class App extends Component {
         this.setToken(json.token)
       })
       .catch(error => {
-        this.setState({ error })
+        this.setError(error)
       })
   }
 
@@ -102,7 +110,7 @@ class App extends Component {
       <Router>
         <main>
           <PrimaryNav signedIn={ !!token } />
-          { !!error && <p>{ error.message }</p> }
+          { !!error && <ErrorMessage error={ error } /> }
 
           <Switch>
             <Route exact path='/' component={ HomePage } />
