@@ -1,12 +1,19 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-export default () => (
+export default ({
+    signedIn = false
+}) => (
     <nav>
         <NavLink exact to='/' activeClassName='active'>Home</NavLink>
-        <NavLink to='/signin'  activeClassName='active'>Sign In</NavLink>
-        <NavLink to='/join'  activeClassName='active'>Sign Up</NavLink>
-        <NavLink to='/profile'  activeClassName='active'>Profile</NavLink>
+        {
+            signedIn ? [
+                <NavLink to='/profile'  activeClassName='active'>Profile</NavLink>
+            ] : [
+                <NavLink key='signin' to='/signin'  activeClassName='active'>Sign In</NavLink>,
+                <NavLink key='join' to='/join' activeClassName='active'>Sign Up</NavLink>
+            ]
+        }
         <NavLink to='/movies'  activeClassName='active'>Movies</NavLink>
     </nav>
 )

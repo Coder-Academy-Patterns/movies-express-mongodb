@@ -1,6 +1,5 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import SignInForm from '../components/SignInForm'
 
 function secondsUntilTime(expiry) {
     const now = new Date()
@@ -17,7 +16,7 @@ const ProfilePage = ({
             <Redirect to='/signin' />
         ) : (
             <dl>
-                <dt>Email</dt>
+                <dt>Email:</dt>
                 <dd>{ userInfo.email }</dd>
                 <dt>Will sign out in:</dt>
                 <dd>{ secondsUntilTime(userInfo.exp) } seconds</dd>
