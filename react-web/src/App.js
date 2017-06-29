@@ -6,6 +6,7 @@ import {
   Link
 } from 'react-router-dom'
 import './App.css'
+import PrimaryNav from './components/PrimaryNav'
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
 import SignInPage from './pages/SignInPage'
@@ -36,11 +37,7 @@ class App extends Component {
     return (
       <Router>
         <main>
-          <nav>
-            <Link to='/'>Home</Link>
-            <Link to='/signin'>Sign In</Link>
-            <Link to='/movies'>Movies</Link>
-          </nav>
+          <PrimaryNav />
           { !!error && <p>{ error.message }</p> }
 
           <Switch>
