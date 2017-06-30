@@ -9,6 +9,7 @@ import PrimaryNav from './components/PrimaryNav'
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
 import SignInPage from './pages/SignInPage'
+import SignUpPage from './pages/SignUpPage'
 import * as authAPI from './api/auth'
 import * as moviesAPI from './api/movies'
 
@@ -22,6 +23,16 @@ class App extends Component {
 
   handleSignIn = ({ email, password }) => {
     authAPI.signIn({ email, password })
+      .then(json => {
+        this.setState({ token: json.token })
+      })
+      .catch(error => {
+        this.setState({ error })
+      })
+  }
+
+  handleSignUp = ({ email, password }) => {
+    authAPI.register({ email, password })
       .then(json => {
         this.setState({ token: json.token })
       })
@@ -51,6 +62,11 @@ class App extends Component {
             <Route path='/signin' render={
               () => (
                 <SignInPage token={ token } onSignIn={ this.handleSignIn } />
+              )
+            } />
+            <Route path='/signup' render={
+              () => (
+                <SignUpPage token={ token } onSignUp={ this.handleSignUp } />
               )
             } />
             <Route path='/movies' render={
