@@ -26,7 +26,13 @@ class App extends Component {
   }
 
   setToken = (token) => {
-    localStorage.setItem(tokenKey, token)
+    if (token) {
+      localStorage.setItem(tokenKey, token)
+    }
+    else {
+      localStorage.removeItem(tokenKey)
+    }
+
     this.setState({ token: token })
   }
 
@@ -51,7 +57,7 @@ class App extends Component {
   }
 
   handleSignOut = () => {
-    this.setState({ token: null })
+    this.setToken(null)
   }
 
   handleCreateMovie = (movie) => {
