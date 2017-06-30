@@ -15,18 +15,25 @@ import ProfilePage from './pages/ProfilePage'
 import * as authAPI from './api/auth'
 import * as moviesAPI from './api/movies'
 
+const tokenKey = 'userToken'
+
 class App extends Component {
   // Initial state
   state = {
     error: null,
-    token: null,
+    token: localStorage.getItem(tokenKey),
     movies: null // Null means not loaded yet
+  }
+
+  setToken = (token) => {
+    localStorage.setItem(tokenKey, token)
+    this.setState({ token: token })
   }
 
   handleSignIn = ({ email, password }) => {
     authAPI.signIn({ email, password })
       .then(json => {
-        this.setState({ token: json.token })
+        this.setToken(json.token)
       })
       .catch(error => {
         this.setState({ error })
@@ -36,7 +43,7 @@ class App extends Component {
   handleSignUp = ({ email, password }) => {
     authAPI.register({ email, password })
       .then(json => {
-        this.setState({ token: json.token })
+        this.setToken(json.token)
       })
       .catch(error => {
         this.setState({ error })
