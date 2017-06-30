@@ -85,6 +85,9 @@ function registerMiddleware(req, res, next) {
 module.exports = {
   initialize: passport.initialize(),
   authenticateSignIn: passport.authenticate('local', { session: false }),
+  // 1. Verifies that a JWT is being passed to the request
+  // 2. Verifies that we signed that JWT — i.e. it’s authentic
+  // 3. Verifies that it hasn’t expired
   authenticateJWT: passport.authenticate('jwt', { session: false }),
   register: registerMiddleware,
   signTokenHandler
