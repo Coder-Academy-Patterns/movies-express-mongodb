@@ -4,10 +4,13 @@ const authMiddleware = require('../middleware/auth')
 
 const router = express.Router()
 
+// Must be signed in to read or write people
+router.use('/people', authMiddleware.authenticateJWT)
+
 router
 .route('/people')
 // User must be signed in to list people
-.get(authMiddleware.authenticateJWT, (req, res) => {
+.get((req, res) => {
     Person.find()
         .then(people => {
             res.json(people)
