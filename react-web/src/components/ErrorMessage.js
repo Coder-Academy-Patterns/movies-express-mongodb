@@ -9,7 +9,13 @@ export default function ErrorMessage({
   if (error.response) {
     const status = error.response.status
     if (status === 401) {
-      message = 'You must be logged in to access this.'
+      message = 'You are not authorized to access this.'
+    }
+
+    // If the API responded with error information
+    const json = error.response.data
+    if (json.error && json.error.message) {
+      message += ' ' + json.error.message
     }
   }
 
