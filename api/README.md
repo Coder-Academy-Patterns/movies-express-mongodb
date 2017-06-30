@@ -1,7 +1,13 @@
 # movies-express-mongodb
 Example of Express and MongoDB to make a simple API
 
-## Running
+## Development
+
+### Create a .env file
+```
+MONGODB_URL =
+CORS_ORIGINS = 
+```
 
 `yarn dev` — Open `localhost:7000`
 
