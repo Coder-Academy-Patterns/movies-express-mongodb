@@ -3,7 +3,8 @@ import { Redirect } from 'react-router-dom'
 import Profile from '../components/Profile'
 
 export default function ProfilePage({
-    userInfo
+    userInfo,
+    onSignOut
 }) {
     return (
         <div>
@@ -15,6 +16,7 @@ export default function ProfilePage({
               <Profile userInfo={ userInfo } />
             )
           }
+          <button onClick={ onSignOut }>Sign Out</button>
         </div>
     )
 }
