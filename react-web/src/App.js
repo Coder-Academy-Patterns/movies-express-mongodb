@@ -4,12 +4,14 @@ import {
   Route,
   Switch
 } from 'react-router-dom'
+import decodeJWT from 'jwt-decode'
 import './App.css'
 import PrimaryNav from './components/PrimaryNav'
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
+import ProfilePage from './pages/ProfilePage'
 import * as authAPI from './api/auth'
 import * as moviesAPI from './api/movies'
 
@@ -51,6 +53,9 @@ class App extends Component {
 
   render() {
     const { error, token, movies } = this.state
+    const userInfo = !!token ? decodeJWT(token) : null
+    console.log('userInfo', userInfo)
+
     return (
       <Router>
         <main>
@@ -67,6 +72,11 @@ class App extends Component {
             <Route path='/signup' render={
               () => (
                 <SignUpPage token={ token } onSignUp={ this.handleSignUp } />
+              )
+            } />
+            <Route path='/profile' render={
+              () => (
+                <ProfilePage userInfo={ userInfo } />
               )
             } />
             <Route path='/movies' render={

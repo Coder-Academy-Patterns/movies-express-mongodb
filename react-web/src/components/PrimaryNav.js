@@ -6,6 +6,7 @@ export default () => (
         <NavLink exact to='/' activeClassName='active'>Home</NavLink>
         <NavLink to='/signin'  activeClassName='active'>Sign In</NavLink>
         <NavLink to='/signup'  activeClassName='active'>Sign Up</NavLink>
+        <NavLink to='/profile'  activeClassName='active'>Profile</NavLink>
         <NavLink to='/movies'  activeClassName='active'>Movies</NavLink>
     </nav>
 )
