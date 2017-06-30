@@ -10,7 +10,7 @@ router.use('/people', authMiddleware.authenticateJWT)
 router
 .route('/people')
 // User must be signed in to list people
-.get((req, res) => {
+.get(authMiddleware.ensureRole('people:read'), (req, res) => {
     Person.find()
         .then(people => {
             res.json(people)
@@ -19,7 +19,7 @@ router
             res.json({ error })
         })
 })
-.post((req, res) => {
+.post(authMiddleware.ensureRole('people:write'), (req, res) => {
     const newPerson = req.body
     Person.create(newPerson)
         .then(person => {
@@ -37,7 +37,7 @@ router
 })
 
 router.route('/people/:id')
-.get((req, res) => {
+.get(authMiddleware.ensureRole('people:read'), (req, res) => {
     req.itemQuery
         .then(person => {
             res.json(person)
@@ -46,7 +46,7 @@ router.route('/people/:id')
             res.status(404).json({ error })
         })
 })
-.put((req, res) => {
+.put(authMiddleware.ensureRole('people:write'), (req, res) => {
     const newPerson = req.body
     req.itemQuery.update(newPerson)
         .then(() => {
@@ -56,7 +56,7 @@ router.route('/people/:id')
             res.status(404).json({ error })
         })
 })
-.delete((req, res) => {
+.delete(authMiddleware.ensureRole('people:write'), (req, res) => {
     req.itemQuery.remove()
         .then(() => {
             res.status(204).json({})

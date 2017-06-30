@@ -7,12 +7,24 @@ const User = require('../models/user')
 const jwtSecret = 'SECRET!' // FIXME: use environment variable
 const jwtAlgorithm = 'HS256'
 
+function rolesForUser(user) {
+  let roles = ['movies:read', 'movies:write']
+
+  // Users with coderacademy.edu.au emails have more capabilities
+  // if (/@coderacademy.edu.au$/.test(user.email)) {
+  //   roles.push('people:read', 'people:write')
+  // }
+
+  return roles
+}
+
 // Create a valid JWT
 function signTokenHandler(req, res) {
   const user = req.user
   const token = jwt.sign(
     { // Payload
-      email: user.email
+      email: user.email,
+      roles: rolesForUser(user)
     },
     jwtSecret,
     { // Options
@@ -47,7 +59,12 @@ passport.use(
         .then(user => {
           // User was found
           if (user) {
-            done(null, user)
+            // req.user = 2nd argument below
+            done(null, {
+              _id: user._id,
+              email: user.email,
+              roles: jwtPayload.roles
+            })
           }
           // No user was found
           else {
@@ -82,6 +99,20 @@ function registerMiddleware(req, res, next) {
   })
 }
 
+const ensureRole = (role) => (req, res, next) => {
+  const user = req.user
+  const roles = user.roles
+  // If the user’s roles does not include the required role
+  if (roles.indexOf(role) === -1) {
+    let error = new Error(`User must have role ${role}`)
+    error.status = 401 // Unauthorized
+    next(error)
+    return
+  }
+
+  next()
+}
+
 module.exports = {
   initialize: passport.initialize(),
   authenticateSignIn: passport.authenticate('local', { session: false }),
@@ -90,5 +121,6 @@ module.exports = {
   // 3. Verifies that it hasn’t expired
   authenticateJWT: passport.authenticate('jwt', { session: false }),
   register: registerMiddleware,
-  signTokenHandler
+  signTokenHandler,
+  ensureRole
 }
