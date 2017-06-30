@@ -14,30 +14,66 @@ import PeoplePage from './pages/PeoplePage'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 import ProfilePage from './pages/ProfilePage'
+import { setAPIToken } from './api/init'
 import * as authAPI from './api/auth'
 import * as moviesAPI from './api/movies'
 import * as peopleAPI from './api/people'
 
 const tokenKey = 'userToken'
+// Read the last token from the local storage database
+const savedToken = localStorage.getItem(tokenKey)
+// Set the token on the API headers
+setAPIToken(savedToken)
 
 class App extends Component {
   // Initial state
   state = {
     error: null,
-    token: localStorage.getItem(tokenKey),
+    token: savedToken,
     movies: null, // Null means not loaded yet
     people: null
   }
 
-  setToken = (token) => {
-    if (token) {
-      localStorage.setItem(tokenKey, token)
-    }
-    else {
-      localStorage.removeItem(tokenKey)
+  loadPromises = {}
+
+  loadPeople = () => {
+    // Don’t load again and again
+    if (this.loadPromises.listPeople) {
+      return
     }
 
-    this.setState({ token: token })
+    // Load people
+    this.loadPromises.listPeople = peopleAPI.list()
+      .then(people => {
+        // Happens some time in the future
+        this.setState({ people })
+      })
+      .catch(error => {
+        this.setState({ error })
+      })
+  }
+
+  setToken = (token) => {
+    setAPIToken(token)
+
+    // If signed in
+    if (token) {
+      localStorage.setItem(tokenKey, token)
+      this.setState({ token: token })
+    }
+    // If signed out
+    else {
+      // Forget we’ve ever loaded anything
+      this.loadPromises = {}
+      // Clear the token from local storage
+      localStorage.removeItem(tokenKey)
+      // Clear loaded data
+      this.setState({
+        token: null,
+        movies: null,
+        people: null
+      })
+    }
   }
 
   handleSignIn = ({ email, password }) => {
@@ -74,7 +110,8 @@ class App extends Component {
 
   handleCreatePerson = (newPerson) => {
     this.setState(({ people }) => ({
-      people: people.concat(newPerson)
+      people: people.concat(newPerson),
+      error: null // We’re good, to hide the error
     }))
 
     peopleAPI.create(newPerson)
@@ -113,9 +150,13 @@ class App extends Component {
               )
             } />
             <Route path='/people' render={
-              () => (
-                <PeoplePage people={ people } onCreatePerson={ this.handleCreatePerson } />
-              )
+              () => {
+                this.loadPeople()
+
+                return (
+                  <PeoplePage people={ people } onCreatePerson={ this.handleCreatePerson } />
+                )
+              }
             } />
             <Route render={
               ({ location }) => <p>{ location.pathname } not found</p>
@@ -136,16 +177,6 @@ class App extends Component {
       .catch(error => {
         this.setState({ error })
       })
-    
-      // Load people
-      peopleAPI.list()
-        .then(people => {
-          // Happens some time in the future
-          this.setState({ people })
-        })
-        .catch(error => {
-          this.setState({ error })
-        })
   }
 }
 
