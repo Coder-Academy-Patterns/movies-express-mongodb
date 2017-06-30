@@ -11,9 +11,9 @@ function rolesForUser(user) {
   let roles = ['movies:read', 'movies:write']
 
   // Users with coderacademy.edu.au emails have more capabilities
-  // if (/@coderacademy.edu.au$/.test(user.email)) {
-  //   roles.push('people:read', 'people:write')
-  // }
+  if (/@coderacademy.edu.au$/.test(user.email)) {
+    roles.push('people:read', 'people:write')
+  }
 
   return roles
 }

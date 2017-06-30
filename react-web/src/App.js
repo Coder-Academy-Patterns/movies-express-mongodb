@@ -46,7 +46,7 @@ class App extends Component {
     this.loadPromises.listPeople = peopleAPI.list()
       .then(people => {
         // Happens some time in the future
-        this.setState({ people })
+        this.setState({ people, error: null })
       })
       .catch(error => {
         this.setState({ error })
@@ -56,24 +56,25 @@ class App extends Component {
   setToken = (token) => {
     setAPIToken(token)
 
+    // Forget we’ve ever loaded anything
+    this.loadPromises = {}
+
     // If signed in
     if (token) {
       localStorage.setItem(tokenKey, token)
-      this.setState({ token: token })
     }
     // If signed out
     else {
-      // Forget we’ve ever loaded anything
-      this.loadPromises = {}
       // Clear the token from local storage
       localStorage.removeItem(tokenKey)
-      // Clear loaded data
-      this.setState({
-        token: null,
-        movies: null,
-        people: null
-      })
     }
+
+    // Set token and clear loaded data
+    this.setState({
+      token: token,
+      movies: null,
+      people: null
+    })
   }
 
   handleSignIn = ({ email, password }) => {
@@ -110,8 +111,7 @@ class App extends Component {
 
   handleCreatePerson = (newPerson) => {
     this.setState(({ people }) => ({
-      people: people.concat(newPerson),
-      error: null // We’re good, to hide the error
+      people: people.concat(newPerson)
     }))
 
     peopleAPI.create(newPerson)
