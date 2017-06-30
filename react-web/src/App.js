@@ -7,6 +7,7 @@ import {
 import decodeJWT from 'jwt-decode'
 import './App.css'
 import PrimaryNav from './components/PrimaryNav'
+import ErrorMessage from './components/ErrorMessage'
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
 import PeoplePage from './pages/PeoplePage'
@@ -87,7 +88,7 @@ class App extends Component {
       <Router>
         <main>
           <PrimaryNav isSignedIn={ !!token } />
-          { !!error && <p>{ error.message }</p> }
+          { !!error && <ErrorMessage error={ error } /> }
 
           <Switch>
             <Route exact path='/' component={ HomePage } />
