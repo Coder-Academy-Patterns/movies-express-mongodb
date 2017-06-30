@@ -12,4 +12,4 @@ function readAndClearForm(form) {
     return values
 }
 
-module.exports = readAndClearForm
+export default readAndClearForm

@@ -9,11 +9,13 @@ import './App.css'
 import PrimaryNav from './components/PrimaryNav'
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
+import PeoplePage from './pages/PeoplePage'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 import ProfilePage from './pages/ProfilePage'
 import * as authAPI from './api/auth'
 import * as moviesAPI from './api/movies'
+import * as peopleAPI from './api/people'
 
 const tokenKey = 'userToken'
 
@@ -22,7 +24,8 @@ class App extends Component {
   state = {
     error: null,
     token: localStorage.getItem(tokenKey),
-    movies: null // Null means not loaded yet
+    movies: null, // Null means not loaded yet
+    people: null
   }
 
   setToken = (token) => {
@@ -60,16 +63,24 @@ class App extends Component {
     this.setToken(null)
   }
 
-  handleCreateMovie = (movie) => {
+  handleCreateMovie = (newMovie) => {
     this.setState(({ movies }) => ({
-      movies: [ movie ].concat(movies)
+      movies: movies.concat(newMovie)
     }))
 
-    moviesAPI.create(movie)
+    moviesAPI.create(newMovie)
+  }
+
+  handleCreatePerson = (newPerson) => {
+    this.setState(({ people }) => ({
+      people: people.concat(newPerson)
+    }))
+
+    peopleAPI.create(newPerson)
   }
 
   render() {
-    const { error, token, movies } = this.state
+    const { error, token, movies, people } = this.state
     const userInfo = !!token ? decodeJWT(token) : null
 
     return (
@@ -97,7 +108,12 @@ class App extends Component {
             } />
             <Route path='/movies' render={
               () => (
-                <MoviesPage movies={ movies } />
+                <MoviesPage movies={ movies } onCreateMovie={ this.handleCreateMovie } />
+              )
+            } />
+            <Route path='/people' render={
+              () => (
+                <PeoplePage people={ people } onCreatePerson={ this.handleCreatePerson } />
               )
             } />
             <Route render={
@@ -110,7 +126,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // Asychronous
+    // Load movies. Asychronous
     moviesAPI.list()
       .then(movies => {
         // Happens some time in the future
@@ -119,6 +135,16 @@ class App extends Component {
       .catch(error => {
         this.setState({ error })
       })
+    
+      // Load people
+      peopleAPI.list()
+        .then(people => {
+          // Happens some time in the future
+          this.setState({ people })
+        })
+        .catch(error => {
+          this.setState({ error })
+        })
   }
 }
 
